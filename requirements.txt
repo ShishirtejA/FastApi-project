@@ -1,0 +1,7 @@
+fastapi
+uvicorn # to run the server
+sqlalchemy # to make the connection to the database.
+pydantic
+passlib[argon2] # to hash the password.
+bcrypt # to hash the password.
+python-jose # to generate the JWT token
