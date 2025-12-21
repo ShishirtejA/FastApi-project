@@ -9,7 +9,13 @@ from passlib.context import CryptContext # by using the we hash the password.
 from .database import get_db
 from .routers import product,seller,login
 # this file if for creating the routes.
-app = FastAPI()
+app = FastAPI(
+    title = "Products API",
+    description="Get details for all the products on the website.",
+    terms_of_service="http://www.google.com",
+    # docs_url='/documentation' #This changes the docs url,
+    redoc_url=None
+)
 
 
 app.include_router(product.router) # this will give us all the routes from the product.

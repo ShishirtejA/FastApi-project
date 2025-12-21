@@ -8,11 +8,20 @@ class Product(BaseModel):
     name: str
     description: str
     price: int
+    
+# This is the response model for the Seller.
+class DisplaySeller(BaseModel):
+    username: str
+    email: str
+    class config:
+        orm_mode = True
+
 
 # This is the response model for Product.
 class DisplayProduct(BaseModel):
     name: str
     description: str
+    seller: DisplaySeller
     class config:
         orm_mode = True
 
@@ -22,12 +31,6 @@ class Seller(BaseModel):
     password: str
 
 
-# This is the response model for the Seller.
-class DisplaySeller(BaseModel):
-    username: str
-    email: str
-    class config:
-        orm_mode = True
 
 
 # This is for the login router.

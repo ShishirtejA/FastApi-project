@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from datetime import datetime,timedelta
 from jose import jwt,JWTError
+from ..schemas import TokenData
+from fastapi.security import OAuth2PasswordBearer
 # This file is for creating the login router.
 
 SECRET_KEY = "5b4546aa2072faa19798fcd5f35ea92ae162ff9e849726c5228f0fd231e53529" # secret key for JWT token.
@@ -13,6 +15,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 20 # token expiry time.
 
 router = APIRouter() # instance is created.
 pwd_context = CryptContext(schemes=["argon2"],deprecated="auto") # This will hash the password.
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 # This is for generating the token.
 def generate_token(data:dict):
@@ -23,7 +26,7 @@ def generate_token(data:dict):
     return encoded_jwt
     
 
-@router.post('/login')
+@router.post('/login',tags = ['Login'])
 def login(request:schemas.Login,db: Session = Depends(get_db)): # It accepts the request...Login schema is given here
     seller = db.query(models.Seller).filter(models.Seller.username == request.username).first()
     if not seller:
@@ -35,3 +38,6 @@ def login(request:schemas.Login,db: Session = Depends(get_db)): # It accepts the
         data = {"sub":seller.username} # by this the user gets the token.   
     )
     return {"access_token":access_token,"token_type":"bearer"}
+
+
+
